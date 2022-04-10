@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild  ,ChangeDetectorRef} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { IBrand } from '../shared/models/brands';
 import { IProduct } from '../shared/models/product';
 import { IType } from '../shared/models/productType';
@@ -12,9 +18,9 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search') searchTerm!: ElementRef;
-  products: IProduct[] | undefined = [];
-  brands: IBrand[] = [];
-  types: IType[] = [];
+  products!: IProduct[];
+  brands!: IBrand[];
+  types!: IType[];
   shopParams = new ShopParams();
   totalCount: number | undefined;
   sortOptions = [
@@ -32,7 +38,10 @@ export class ShopComponent implements OnInit {
     },
   ];
 
-  constructor(private shopService: ShopService,private cdr: ChangeDetectorRef) {}
+  constructor(
+    private shopService: ShopService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getProducts();
@@ -44,7 +53,9 @@ export class ShopComponent implements OnInit {
     this.cdr.detectChanges();
     this.shopService.getProducts(this.shopParams).subscribe(
       (response) => {
-        this.products = response?.data;
+        if (response?.data) {
+          this.products = response?.data;
+        }
         this.shopParams.pageNumber = response?.pageIndex;
         this.shopParams.pageSize = response?.pageSize;
         this.totalCount = response?.count;

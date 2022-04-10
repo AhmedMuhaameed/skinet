@@ -12,12 +12,13 @@ const routes: Routes = [
   {
     path: ':id',
     component: ProductDetailsComponent,
+    data: { breadcrumb: { alias: 'productDetails' } },
   },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule,RouterModule.forChild(routes)],
-  exports:[RouterModule]
+  imports: [CommonModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class ShopRoutingModule {}
