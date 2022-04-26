@@ -3,20 +3,24 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { delay, finalize, Observable } from 'rxjs';
 import { BusyService } from '../services/busy.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
+  constructor(private busyServie: BusyService) {}
 
-  constructor(private busyServie:BusyService) {}
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.busyServie.busy();
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    if (!request.url.includes('emailExists')) {
+      this.busyServie.busy();
+    }
     return next.handle(request).pipe(
-      finalize(()=>{
+      finalize(() => {
         this.busyServie.idle();
       })
     );
