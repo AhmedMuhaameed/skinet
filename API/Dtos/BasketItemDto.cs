@@ -15,7 +15,7 @@ namespace API.Dtos
         [Range(1, double.MaxValue, ErrorMessage = "Quantity must be at least one")]
         public int Quantity { get; set; }
         [Required]
-        public string Picture { get; set; }
+        public string PictureUrl { get; set; }
         [Required]
         public string Brand { get; set; }
         [Required]

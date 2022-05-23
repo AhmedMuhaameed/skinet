@@ -25,6 +25,8 @@ export class BasketService {
   getBasket(id: string) {
     return this.http.get<IBasket>(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket: IBasket) => {
+        console.log(basket);
+        
         this.basketSource.next(basket);
         this.calculateTotals();
       })
@@ -139,7 +141,7 @@ export class BasketService {
       id: item.id,
       productName: item.name,
       price: item.price,
-      picture: item.pictureUrl,
+      pictureUrl: item.pictureUrl,
       quantity,
       brand: item.productBrand,
       type: item.productType,
